@@ -63,7 +63,7 @@ export const listEvents = api<void, ListEventsResponse>(
 );
 
 export const createEvent = api<CreateEventRequest, Event>(
-  { expose: true, method: "POST", path: "/events" },
+  { expose: true, auth: true, method: "POST", path: "/events" },
   async (req) => {
     const row = await db.queryRow<Record<string, unknown>>`
       INSERT INTO events (title, venue, city, country, date, ticket_url, description)
@@ -75,7 +75,7 @@ export const createEvent = api<CreateEventRequest, Event>(
 );
 
 export const updateEvent = api<UpdateEventRequest, Event>(
-  { expose: true, method: "PUT", path: "/events/:id" },
+  { expose: true, auth: true, method: "PUT", path: "/events/:id" },
   async (req) => {
     const row = await db.queryRow<Record<string, unknown>>`
       UPDATE events SET
@@ -95,7 +95,7 @@ export const updateEvent = api<UpdateEventRequest, Event>(
 );
 
 export const deleteEvent = api<DeleteEventRequest, void>(
-  { expose: true, method: "DELETE", path: "/events/:id" },
+  { expose: true, auth: true, method: "DELETE", path: "/events/:id" },
   async (req) => {
     await db.exec`DELETE FROM events WHERE id = ${req.id}`;
   }

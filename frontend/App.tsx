@@ -9,13 +9,11 @@ import SocialSection from "./components/SocialSection";
 import Footer from "./components/Footer";
 import AdminPanel from "./components/admin/AdminPanel";
 import AdminLogin from "./components/admin/AdminLogin";
-
-const ADMIN_PASSWORD = "sushant2024";
-const ADMIN_KEY = "sk_admin_auth";
+import { loginAdmin, isAuthenticated, clearToken } from "./lib/auth";
 
 export default function App() {
   const [hash, setHash] = useState(window.location.hash);
-  const [adminAuthed, setAdminAuthed] = useState(() => localStorage.getItem(ADMIN_KEY) === "true");
+  const [adminAuthed, setAdminAuthed] = useState(() => isAuthenticated());
 
   useEffect(() => {
     const handler = () => setHash(window.location.hash);
@@ -25,17 +23,14 @@ export default function App() {
 
   const isAdmin = hash === "#/admin";
 
-  const handleLogin = (password: string) => {
-    if (password === ADMIN_PASSWORD) {
-      localStorage.setItem(ADMIN_KEY, "true");
-      setAdminAuthed(true);
-      return true;
-    }
-    return false;
+  const handleLogin = async (username: string, password: string): Promise<boolean> => {
+    const ok = await loginAdmin(username, password);
+    if (ok) setAdminAuthed(true);
+    return ok;
   };
 
   const handleLogout = () => {
-    localStorage.removeItem(ADMIN_KEY);
+    clearToken();
     setAdminAuthed(false);
     window.location.hash = "";
   };

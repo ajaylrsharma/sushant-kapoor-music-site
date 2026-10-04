@@ -55,7 +55,7 @@ export const listVideos = api<void, ListVideosResponse>(
 );
 
 export const createVideo = api<CreateVideoRequest, Video>(
-  { expose: true, method: "POST", path: "/videos" },
+  { expose: true, auth: true, method: "POST", path: "/videos" },
   async (req) => {
     const row = await db.queryRow<Record<string, unknown>>`
       INSERT INTO videos (title, description, youtube_url, thumbnail_url, featured)
@@ -67,7 +67,7 @@ export const createVideo = api<CreateVideoRequest, Video>(
 );
 
 export const updateVideo = api<UpdateVideoRequest, Video>(
-  { expose: true, method: "PUT", path: "/videos/:id" },
+  { expose: true, auth: true, method: "PUT", path: "/videos/:id" },
   async (req) => {
     const row = await db.queryRow<Record<string, unknown>>`
       UPDATE videos SET
@@ -85,7 +85,7 @@ export const updateVideo = api<UpdateVideoRequest, Video>(
 );
 
 export const deleteVideo = api<DeleteVideoRequest, void>(
-  { expose: true, method: "DELETE", path: "/videos/:id" },
+  { expose: true, auth: true, method: "DELETE", path: "/videos/:id" },
   async (req) => {
     await db.exec`DELETE FROM videos WHERE id = ${req.id}`;
   }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import backend from "~backend/client";
+import { authedBackend } from "../../lib/auth";
 import { Plus, Pencil, Trash2, X, Check, Calendar } from "lucide-react";
 
 type EventItem = Awaited<ReturnType<typeof backend.content.listEvents>>["events"][number];
@@ -60,9 +61,9 @@ export default function EventsAdmin() {
     try {
       const payload = { ...form, date: new Date(form.date).toISOString() };
       if (editing) {
-        await backend.content.updateEvent({ id: editing.id, ...payload });
+        await authedBackend().content.updateEvent({ id: editing.id, ...payload });
       } else {
-        await backend.content.createEvent(payload);
+        await authedBackend().content.createEvent(payload);
       }
       setShowForm(false);
       await load();
@@ -75,7 +76,7 @@ export default function EventsAdmin() {
     if (!confirm("Delete this event?")) return;
     setDeleting(id);
     try {
-      await backend.content.deleteEvent({ id });
+      await authedBackend().content.deleteEvent({ id });
       await load();
     } finally {
       setDeleting(null);

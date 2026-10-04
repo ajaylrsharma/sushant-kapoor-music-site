@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import backend from "~backend/client";
+import { authedBackend } from "../../lib/auth";
 import { Plus, Pencil, Trash2, X, Check, Music } from "lucide-react";
 
 type Track = Awaited<ReturnType<typeof backend.content.listTracks>>["tracks"][number];
@@ -59,9 +60,9 @@ export default function TracksAdmin() {
     setSaving(true);
     try {
       if (editing) {
-        await backend.content.updateTrack({ id: editing.id, ...form });
+        await authedBackend().content.updateTrack({ id: editing.id, ...form });
       } else {
-        await backend.content.createTrack(form);
+        await authedBackend().content.createTrack(form);
       }
       setShowForm(false);
       await load();
@@ -74,7 +75,7 @@ export default function TracksAdmin() {
     if (!confirm("Delete this track?")) return;
     setDeleting(id);
     try {
-      await backend.content.deleteTrack({ id });
+      await authedBackend().content.deleteTrack({ id });
       await load();
     } finally {
       setDeleting(null);

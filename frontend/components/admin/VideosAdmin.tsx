@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import backend from "~backend/client";
+import { authedBackend } from "../../lib/auth";
 import { Plus, Pencil, Trash2, X, Check, Video } from "lucide-react";
 
 type VideoItem = Awaited<ReturnType<typeof backend.content.listVideos>>["videos"][number];
@@ -53,9 +54,9 @@ export default function VideosAdmin() {
     setSaving(true);
     try {
       if (editing) {
-        await backend.content.updateVideo({ id: editing.id, ...form });
+        await authedBackend().content.updateVideo({ id: editing.id, ...form });
       } else {
-        await backend.content.createVideo(form);
+        await authedBackend().content.createVideo(form);
       }
       setShowForm(false);
       await load();
@@ -68,7 +69,7 @@ export default function VideosAdmin() {
     if (!confirm("Delete this video?")) return;
     setDeleting(id);
     try {
-      await backend.content.deleteVideo({ id });
+      await authedBackend().content.deleteVideo({ id });
       await load();
     } finally {
       setDeleting(null);

@@ -67,7 +67,7 @@ export const listTracks = api<void, ListTracksResponse>(
 );
 
 export const createTrack = api<CreateTrackRequest, Track>(
-  { expose: true, method: "POST", path: "/tracks" },
+  { expose: true, auth: true, method: "POST", path: "/tracks" },
   async (req) => {
     const row = await db.queryRow<Record<string, unknown>>`
       INSERT INTO tracks (title, description, genre, release_year, spotify_url, youtube_url, cover_image_url, featured)
@@ -79,7 +79,7 @@ export const createTrack = api<CreateTrackRequest, Track>(
 );
 
 export const updateTrack = api<UpdateTrackRequest, Track>(
-  { expose: true, method: "PUT", path: "/tracks/:id" },
+  { expose: true, auth: true, method: "PUT", path: "/tracks/:id" },
   async (req) => {
     const row = await db.queryRow<Record<string, unknown>>`
       UPDATE tracks SET
@@ -100,7 +100,7 @@ export const updateTrack = api<UpdateTrackRequest, Track>(
 );
 
 export const deleteTrack = api<DeleteTrackRequest, void>(
-  { expose: true, method: "DELETE", path: "/tracks/:id" },
+  { expose: true, auth: true, method: "DELETE", path: "/tracks/:id" },
   async (req) => {
     await db.exec`DELETE FROM tracks WHERE id = ${req.id}`;
   }

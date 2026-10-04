@@ -1,0 +1,37 @@
+CREATE TABLE tracks (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  genre TEXT NOT NULL DEFAULT '',
+  release_year INTEGER NOT NULL DEFAULT 0,
+  spotify_url TEXT NOT NULL DEFAULT '',
+  youtube_url TEXT NOT NULL DEFAULT '',
+  cover_image_url TEXT NOT NULL DEFAULT '',
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE videos (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  youtube_url TEXT NOT NULL,
+  thumbnail_url TEXT NOT NULL DEFAULT '',
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE events (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  venue TEXT NOT NULL,
+  city TEXT NOT NULL,
+  country TEXT NOT NULL,
+  date TIMESTAMPTZ NOT NULL,
+  ticket_url TEXT NOT NULL DEFAULT '',
+  description TEXT NOT NULL DEFAULT '',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

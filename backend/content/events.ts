@@ -1,4 +1,4 @@
-import { api } from "encore.dev/api";
+import { api, APIError } from "encore.dev/api";
 import { db } from "./db";
 
 interface Event {
@@ -90,7 +90,8 @@ export const updateEvent = api<UpdateEventRequest, Event>(
       WHERE id = ${req.id}
       RETURNING *
     `;
-    return rowToEvent(row!);
+    if (!row) throw APIError.notFound("event not found");
+    return rowToEvent(row);
   }
 );
 

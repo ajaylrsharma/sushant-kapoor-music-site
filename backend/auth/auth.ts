@@ -60,9 +60,7 @@ function computeToken(username: string, secret: string): string {
 }
 
 function timingSafeEqual(a: string, b: string): boolean {
-  if (a.length !== b.length) {
-    crypto.timingSafeEqual(Buffer.from(a), Buffer.from(a));
-    return false;
-  }
-  return crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+  const ha = crypto.createHmac("sha256", "cmp").update(a).digest();
+  const hb = crypto.createHmac("sha256", "cmp").update(b).digest();
+  return crypto.timingSafeEqual(ha, hb);
 }

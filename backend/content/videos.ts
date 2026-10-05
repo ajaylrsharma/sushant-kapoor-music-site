@@ -1,4 +1,4 @@
-import { api } from "encore.dev/api";
+import { api, APIError } from "encore.dev/api";
 import { db } from "./db";
 
 interface Video {
@@ -80,7 +80,8 @@ export const updateVideo = api<UpdateVideoRequest, Video>(
       WHERE id = ${req.id}
       RETURNING *
     `;
-    return rowToVideo(row!);
+    if (!row) throw APIError.notFound("video not found");
+    return rowToVideo(row);
   }
 );
 

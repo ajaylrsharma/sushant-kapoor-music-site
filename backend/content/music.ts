@@ -1,4 +1,4 @@
-import { api } from "encore.dev/api";
+import { api, APIError } from "encore.dev/api";
 import { db } from "./db";
 
 interface Track {
@@ -95,7 +95,8 @@ export const updateTrack = api<UpdateTrackRequest, Track>(
       WHERE id = ${req.id}
       RETURNING *
     `;
-    return rowToTrack(row!);
+    if (!row) throw APIError.notFound("track not found");
+    return rowToTrack(row);
   }
 );
 

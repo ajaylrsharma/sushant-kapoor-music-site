@@ -1,0 +1,20 @@
+CREATE TABLE gallery (
+  id BIGSERIAL PRIMARY KEY,
+  image_url TEXT NOT NULL,
+  caption TEXT NOT NULL DEFAULT '',
+  category TEXT NOT NULL DEFAULT '',
+  featured BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE releases (
+  id BIGSERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  release_date TEXT NOT NULL,
+  cover_image_url TEXT NOT NULL DEFAULT '',
+  spotify_url TEXT NOT NULL DEFAULT '',
+  youtube_url TEXT NOT NULL DEFAULT '',
+  is_latest BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

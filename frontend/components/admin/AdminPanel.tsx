@@ -1,15 +1,21 @@
 import { useState } from "react";
-import { Music, Video, Calendar, LogOut, LayoutDashboard } from "lucide-react";
+import { Music, Video, Calendar, LogOut, LayoutDashboard, ImageIcon, Disc3, Mail } from "lucide-react";
 import TracksAdmin from "./TracksAdmin";
 import VideosAdmin from "./VideosAdmin";
 import EventsAdmin from "./EventsAdmin";
+import PhotosAdmin from "./PhotosAdmin";
+import ReleasesAdmin from "./ReleasesAdmin";
+import InquiriesAdmin from "./InquiriesAdmin";
 
-type Tab = "tracks" | "videos" | "events";
+type Tab = "tracks" | "videos" | "events" | "gallery" | "releases" | "inquiries";
 
 const tabs = [
   { id: "tracks" as Tab, label: "Tracks", icon: Music },
   { id: "videos" as Tab, label: "Videos", icon: Video },
   { id: "events" as Tab, label: "Events", icon: Calendar },
+  { id: "gallery" as Tab, label: "Gallery", icon: ImageIcon },
+  { id: "releases" as Tab, label: "Releases", icon: Disc3 },
+  { id: "inquiries" as Tab, label: "Inquiries", icon: Mail },
 ];
 
 export default function AdminPanel({ onLogout }: { onLogout: () => void }) {
@@ -41,14 +47,14 @@ export default function AdminPanel({ onLogout }: { onLogout: () => void }) {
       </header>
 
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="flex gap-2 mb-8 bg-zinc-900 p-1.5 rounded-2xl border border-zinc-800 w-fit">
+        <div className="flex flex-wrap gap-2 mb-8 bg-zinc-900 p-1.5 rounded-2xl border border-zinc-800 w-fit">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all duration-300 ${
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold tracking-wide transition-all duration-300 ${
                   activeTab === tab.id
                     ? "bg-amber-400 text-zinc-950"
                     : "text-zinc-400 hover:text-white hover:bg-zinc-800"
@@ -64,6 +70,9 @@ export default function AdminPanel({ onLogout }: { onLogout: () => void }) {
         {activeTab === "tracks" && <TracksAdmin />}
         {activeTab === "videos" && <VideosAdmin />}
         {activeTab === "events" && <EventsAdmin />}
+        {activeTab === "gallery" && <PhotosAdmin />}
+        {activeTab === "releases" && <ReleasesAdmin />}
+        {activeTab === "inquiries" && <InquiriesAdmin />}
       </div>
     </div>
   );
